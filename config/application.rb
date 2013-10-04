@@ -2,6 +2,11 @@ require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
 
+Projects = YAML.load_file("./config/projects.yml")
+
+# PROJECTS = YAML.load(File.read(File.expand_path('config/projects.yml')))
+# PROJECTS.symbolize_keys!
+
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(:default, Rails.env)

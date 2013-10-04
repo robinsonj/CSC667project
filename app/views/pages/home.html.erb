@@ -1,0 +1,18 @@
+<h1>Joe Robinson</h1>
+
+<table>
+    <tbody>
+        <tr>
+            <td><b>Project name</b></td>
+            <td><b>Description</b></td>
+            <td><b>Url</b></td>
+        </tr>
+    <% Projects.each do |project|%>
+        <tr>
+            <td><%= project[0] %> </td>
+            <td><%= project[1]["description"] %> </td>
+            <td><%= link_to project[1]["url"], project[1]["url"] %> </td>
+        </tr>
+    <% end %>
+    </tbody>
+</table>
