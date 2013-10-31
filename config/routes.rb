@@ -1,9 +1,12 @@
 CSC667project::Application.routes.draw do
+  get "pages/calendar"
   #get "pages/home"
 
   get "pages/project_2" => "pages#project_2"
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
+
+  get "/calendar" => "pages#calendar"
 
   # You can have the root of your site routed with "root"
   root 'pages#home'
