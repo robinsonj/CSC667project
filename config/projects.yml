@@ -9,4 +9,7 @@ project_2:
   description: "Description of Bootstrap set up"
 project_3:
   url: "/calendar"
-  description: "A basic interactive calendar (non-persistent)"
+  description: "A basic interactive calendar (non-persistent, made persistent by project_4)"
+project_4:
+  url: "/calendar"
+  description: "A basic interactive calendar (persistent)"

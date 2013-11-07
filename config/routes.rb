@@ -1,4 +1,6 @@
 CSC667project::Application.routes.draw do
+  resources :appointments
+
   get "pages/calendar"
   #get "pages/home"
 
@@ -7,6 +9,9 @@ CSC667project::Application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   get "/calendar" => "pages#calendar"
+
+  get "appointments" => "appointments#index"
+  post "/appointments" => "appointments#create"
 
   # You can have the root of your site routed with "root"
   root 'pages#home'

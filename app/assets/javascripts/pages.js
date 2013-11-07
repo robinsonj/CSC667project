@@ -8,7 +8,7 @@ $(document).ready(function(){
 
     // Create calendar cells.
     var cell_id = 0
-    for(i = 0; i < 5; i++){
+    for(i = 0; i < 6; i++){
         var new_row = $('<tr></tr>').attr('id', 'week_' + i)
         for(j = 0; j < 7; j++){
             var new_cell = $('<td></td>')
@@ -16,9 +16,12 @@ $(document).ready(function(){
                 .attr('class', 'col-md-1')
                 .height(80).on("click", function(){
                     if($('#input_time').val() != "" && $('#input_description').val() != ""){
-                        $(this).append($('#input_time').val() + ': ' + $('#input_description').val() + '<br>')
-                        $('#input_time').val("")
-                        $('#input_description').val("")
+                        var day = $(this).children("div").attr('day_num')
+                        $.post("/appointments",
+                            {year: year, month: month, day: day, time: $('#input_time').val(), description: $('#input_description').val()},
+                            function(success){
+                                writeEvent($("td[day_id = " + day + "]"), $('#input_time').val(), $('#input_description').val())
+                        })
                     }
             })
             $(new_row).append(new_cell)
@@ -62,7 +65,14 @@ $(document).ready(function(){
     })
 });
 
+function writeEvent(element, time, description){
+    element.append(time + ': ' + description + '<br>')
+    $('#input_time').val("")
+    $('#input_description').val("")
+}
+
 function setCalendar(month_int, year){
+
     var month = new Array();
     month[0]="January"
     month[1]="February"
@@ -86,7 +96,7 @@ function setCalendar(month_int, year){
 
     for(i = first_day; i < num_days + first_day; i++){
         var cell_id = "cell_" + i
-        $("#" + cell_id).html(day_counter + "<br>")
+        $("#" + cell_id).attr('day_id', day_counter).html($("<div></div>").attr('day_num', day_counter).html(day_counter))
 
         cur_date = new Date()
 
@@ -97,11 +107,24 @@ function setCalendar(month_int, year){
         }
         day_counter++
     }
+
+
+
+    $.get(
+        "/appointments",
+        {year: year, month: month_int},
+        function(appointments){
+            for(j = 0; j < appointments.length; j++){
+                writeEvent($("td[day_id = " + appointments[j].day + "]"), appointments[j].time, appointments[j].description)
+            }            
+        },
+        'json'
+    )
 }
 
 function resetCalendar(){
-    for(i = 0; i < 35; i++){
+    for(i = 0; i < 42; i++){
         var cell_id = "cell_" + i
-        $("#" + cell_id).html("").css('background-color', '#FFFFFF')
+        $("#" + cell_id).html("").css('background-color', '#FFFFFF').removeAttr('day_id')
     }
 }
